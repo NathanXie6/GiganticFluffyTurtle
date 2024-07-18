@@ -81,7 +81,6 @@ public class Mecanum extends LinearOpMode {
 
             // Main teleop loop goes here
 
-            frontLeftMotor.setPower(1);
         }
 
 

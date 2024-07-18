@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import android.util.Log;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.utils.Encoder;
+
 @TeleOp
 public class Test extends LinearOpMode {
     public CRServo servo;
@@ -19,30 +21,54 @@ public class Test extends LinearOpMode {
 
 
         DcMotorEx frontLeftMotor = hardwareMap.get(DcMotorEx.class, "frontLeftMotor");
-        frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        DcMotorEx frontRightMotor = hardwareMap.get(DcMotorEx.class, "frontRightMotor");
+        DcMotorEx backLeftMotor = hardwareMap.get(DcMotorEx.class, "backLeftMotor");
+        DcMotorEx backRightMotor = hardwareMap.get(DcMotorEx.class, "backRightMotor");
 
-        DcMotorEx testMotor = hardwareMap.get(DcMotorEx.class, "testMotor");
-        DcMotorEx poopMotor = hardwareMap.get(DcMotorEx.class, "poopMotor");
+        frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         servo.setDirection(DcMotorSimple.Direction.REVERSE);
         waitForStart();
         if (isStopRequested()) return;
 
         double prev = 0;
-        double prevPos = 0;
+        double prevVelo = 0;
+        int i = 0;
         while(opModeIsActive()){
             // servo.setPower(0.5);
-            frontLeftMotor.setVelocity(0.1);
-            frontLeftMotor.setPower(0.1);
 
-            testMotor.setPower(0.1);
-            poopMotor.setPower(0.1);
+            double initAccel = 0;
+            double now = System.currentTimeMillis();
 
-            double velo = frontLeftMotor.getVelocity();
-            double velo2 = testMotor.getVelocity();
+            int desiredPosition = 537;
+            frontLeftMotor.setTargetPosition(desiredPosition);
+            frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            frontLeftMotor.setPower(0.2);
 
-            Log.i("velocity", String.valueOf(velo));
+            double position = frontLeftMotor.getCurrentPosition();
+//            double velocity = frontLeftMotor.getVelocity();
+//
+//            double elMillis =  now - prev;
+//            double elSec = elMillis / 1000;
+//            double elVelo = velocity - prevVelo;
+//            double acceleration = elVelo/ elSec;
+//            initAccel = acceleration;
+//            prevVelo = velocity;
+
+            telemetry.addData("Encoder Position", position);
+            telemetry.addData("Desired Position", desiredPosition);
+
+            telemetry.update();
+
+
             //code for deriving velocity from position (old and not used)
 //            double now = System.currentTimeMillis();
 //

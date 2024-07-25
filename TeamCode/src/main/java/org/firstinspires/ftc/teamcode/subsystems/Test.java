@@ -60,9 +60,8 @@ public class Test extends LinearOpMode {
             double initAccel = 0;
             double now = System.currentTimeMillis();
 
-
+            //testing PIDs
             double command = test.getOut(desiredPosition - frontLeftMotor.getCurrentPosition());
-            frontLeftMotor.setTargetPosition(desiredPosition);
             frontLeftMotor.setPower(command);
 
 //            frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);

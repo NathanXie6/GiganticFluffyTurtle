@@ -20,7 +20,7 @@ public class Test extends LinearOpMode {
     public CRServo servo;
     private long start;
 
-    public static PID test = new PID(1, 0, 0.5);
+    public static PID test = new PID(0.04, 0, 0.6);
 
     public static int desiredPosition = 200;
 
@@ -28,7 +28,6 @@ public class Test extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 //        servo = hardwareMap.get(CRServo.class, "test");
-
 
         dashboard = FtcDashboard.getInstance();
 

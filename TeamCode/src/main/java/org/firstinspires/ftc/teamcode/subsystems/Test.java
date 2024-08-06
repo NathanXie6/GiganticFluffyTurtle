@@ -82,9 +82,12 @@ public class Test extends LinearOpMode {
         double prev = 0;
         double prevVelo = 0;
         int i = 0;
+
+        double initPos = analogInput.getVoltage() * 2 * (Math.PI / 4.972) * (180/Math.PI);
+
         while(opModeIsActive()){
             // servo.setPower(0.5);
-            double position = analogInput.getVoltage() * 2 * (Math.PI / 4.972) * (180/Math.PI);
+            double position = analogInput.getVoltage() * 2 * (Math.PI / 4.972) * (180/Math.PI) + initPos;
             double justVoltage = analogInput.getVoltage();
 
             double initAccel = 0;
@@ -92,7 +95,7 @@ public class Test extends LinearOpMode {
 
             //testing PIDs
             double command = test.getOut(desiredPosition - position);
-           servo.setPower(command);
+            servo.setPower(command);
 
      //       frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 

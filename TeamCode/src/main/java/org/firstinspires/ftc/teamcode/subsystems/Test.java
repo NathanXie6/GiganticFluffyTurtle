@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.libswerve.PID;
 import org.firstinspires.ftc.teamcode.utils.Encoder;
+import org.firstinspires.ftc.teamcode.utils.TelemetryUtil;
 import org.firstinspires.ftc.teamcode.utils.priority.PriorityMotor;
 import org.firstinspires.ftc.teamcode.utils.priority.PriorityMotor;
 import org.firstinspires.ftc.teamcode.utils.priority.HardwareQueue;
@@ -31,6 +32,7 @@ public class Test extends LinearOpMode {
     private List<PriorityMotor> motors;
 
     public static PID test = new PID(0.02, 0, 0.4);
+
 
     public static int desiredPosition = 200;
 
@@ -72,6 +74,8 @@ public class Test extends LinearOpMode {
 
 
         //servo.setDirection(DcMotorSimple.Direction.REVERSE);
+        TelemetryUtil.setup();
+
         waitForStart();
         if (isStopRequested()) return;
 
@@ -80,25 +84,29 @@ public class Test extends LinearOpMode {
         int i = 0;
         while(opModeIsActive()){
             // servo.setPower(0.5);
-            double position = analogInput.getVoltage() / 3.3 * 360;
+            double position = analogInput.getVoltage() * 2 * (Math.PI / 4.972) * (180/Math.PI);
+            double justVoltage = analogInput.getVoltage();
 
             double initAccel = 0;
             double now = System.currentTimeMillis();
 
             //testing PIDs
             double command = test.getOut(desiredPosition - position);
-            servo.setPower(command);
+           servo.setPower(command);
 
-        //    frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+     //       frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-//
-//            double servoPosition = position;
+
+          //  double servoPosition = position;
 //            double velocity = servo.getVelocity();
 
-
+            double error = position - desiredPosition;
         //    telemetry.addData("Velocity", velocity);
-            telemetry.addData("Encoder Position", position);
-            telemetry.addData("Desired Position", desiredPosition);
+            TelemetryUtil.packet.put("Error", error);
+            TelemetryUtil.packet.put("Encoder Position", position);
+            TelemetryUtil.packet.put("just voltage bro:", justVoltage);
+            TelemetryUtil.packet.put("Desired Position", desiredPosition);
+            TelemetryUtil.sendTelemetry();
 
             telemetry.update();
 

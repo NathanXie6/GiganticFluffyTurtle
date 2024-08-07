@@ -24,10 +24,10 @@ public class Test extends LinearOpMode {
 
     private List<PriorityMotor> motors;
 
-    public static PID test = new PID(0.02, 0, 0.4);
+    public static PID test = new PID(0, 0, 0);
 
 
-    public static int desiredPosition = 200;
+    public static int desiredPosition = 100;
 
     FtcDashboard dashboard;
     @Override
@@ -72,36 +72,31 @@ public class Test extends LinearOpMode {
         waitForStart();
         if (isStopRequested()) return;
 
-        double prev = 0;
-        double prevVelo = 0;
-        int i = 0;
-
         double initPos = analogInput.getVoltage() * 2 * (Math.PI / 4.972) * (180/Math.PI);
+        int i = 0;
 
         while(opModeIsActive()){
 
             double position = analogInput.getVoltage() * ((2 * Math.PI )/ 4.972) * (180/Math.PI) + initPos;
             double justVoltage = analogInput.getVoltage();
 
-            double initAccel = 0;
-            double now = System.currentTimeMillis();
+
+            double error = desiredPosition - position;
 
             //testing PIDs
-            double command = test.getOut(desiredPosition - position);
+            double command = test.getOut(error);
             servo.setPower(command);
 
-     //       frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
-          //  double servoPosition = position;
-//            double velocity = servo.getVelocity();
+            double servoPosition = position;
 
-            double error = position - desiredPosition;
-        //    telemetry.addData("Velocity", velocity);
             TelemetryUtil.packet.put("Error", error);
             TelemetryUtil.packet.put("Encoder Position", position);
             TelemetryUtil.packet.put("just voltage bro:", justVoltage);
+
             TelemetryUtil.packet.put("Desired Position", desiredPosition);
+            TelemetryUtil.packet.put("Initial Position", initPos);
             TelemetryUtil.sendTelemetry();
 
             telemetry.update();
@@ -111,6 +106,7 @@ public class Test extends LinearOpMode {
 
         }
     }
+
 
 
     //pw xie1017

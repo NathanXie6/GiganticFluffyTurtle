@@ -1,41 +1,45 @@
-package org.firstinspires.ftc.teamcode.subsystems;
+package org.firstinspires.ftc.teamcode.softwareHW.subsystems;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.utils.priority.PriorityMotor;
 import org.firstinspires.ftc.teamcode.utils.priority.HardwareQueue;
 
 @TeleOp
 public class Mecanum extends LinearOpMode {
+        public final PriorityMotor frontLeftMotor;
+        public final PriorityMotor frontRightMotor;
+        public final PriorityMotor backLeftMotor;
+        public final PriorityMotor backRightMotor;
+
+        public Gamepad currentGamepad1;
+        public Gamepad currentGamepad2;
+        public Gamepad previousGamepad1;
+        public Gamepad previousGamepad2;
+
+    public Mecanum(HardwareMap hardwareMap, HardwareQueue hardwareQueue){
+        frontLeftMotor = new PriorityMotor((DcMotorEx) hardwareMap.dcMotor.get("frontLeftMotor"), "frontLeftMotor", 1, 1, 1.0);
+        frontRightMotor = new PriorityMotor((DcMotorEx) hardwareMap.dcMotor.get("frontRightMotor"), "frontRightMotor", 1, 1, -1.0);
+        backLeftMotor = new PriorityMotor((DcMotorEx) hardwareMap.dcMotor.get("backLeftMotor"), "backLeftMotor", 1, 1, 1.0);
+        backRightMotor = new PriorityMotor((DcMotorEx) hardwareMap.dcMotor.get("backRightMotor"), "backRightMotor", 1, 1, -1.0);
+
+
+    }
+
     @Override
     public void runOpMode() throws InterruptedException {
-        // Declare our motors
-        // Make sure your ID's match your configuration
-        HardwareQueue hardwareQueue = new HardwareQueue();
-        PriorityMotor frontLeftMotor = new PriorityMotor((DcMotorEx) hardwareMap.dcMotor.get("frontLeftMotor"), "frontLeftMotor", 1, 1, 1.0);
-        PriorityMotor frontRightMotor = new PriorityMotor((DcMotorEx) hardwareMap.dcMotor.get("frontRightMotor"), "frontRightMotor", 1, 1, -1.0);
-        PriorityMotor backLeftMotor = new PriorityMotor((DcMotorEx) hardwareMap.dcMotor.get("backLeftMotor"), "backLeftMotor", 1, 1, 1.0);
-        PriorityMotor backRightMotor = new PriorityMotor((DcMotorEx) hardwareMap.dcMotor.get("backRightMotor"), "backRightMotor", 1, 1, -1.0);
-
-
-
-        hardwareQueue.addDevice(frontLeftMotor);
-        hardwareQueue.addDevice(backLeftMotor);
-        hardwareQueue.addDevice(frontRightMotor);
-        hardwareQueue.addDevice(backRightMotor);
 
         // By setting these values to new Gamepad(), they will default to all
         // boolean values as false and all float values as 0
-        Gamepad currentGamepad1 = new Gamepad();
-        Gamepad currentGamepad2 = new Gamepad();
+        currentGamepad1 = new Gamepad();
+        currentGamepad2 = new Gamepad();
 
-        Gamepad previousGamepad1 = new Gamepad();
-        Gamepad previousGamepad2 = new Gamepad();
+        previousGamepad1 = new Gamepad();
+        previousGamepad2 = new Gamepad();
 
 
         waitForStart();

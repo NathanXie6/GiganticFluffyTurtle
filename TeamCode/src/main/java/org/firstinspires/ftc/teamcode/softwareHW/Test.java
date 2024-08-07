@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.subsystems;
+package org.firstinspires.ftc.teamcode.softwareHW;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -6,16 +6,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import android.util.Log;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.libswerve.PID;
-import org.firstinspires.ftc.teamcode.utils.Encoder;
 import org.firstinspires.ftc.teamcode.utils.TelemetryUtil;
-import org.firstinspires.ftc.teamcode.utils.priority.PriorityMotor;
 import org.firstinspires.ftc.teamcode.utils.priority.PriorityMotor;
 import org.firstinspires.ftc.teamcode.utils.priority.HardwareQueue;
 
@@ -86,8 +79,8 @@ public class Test extends LinearOpMode {
         double initPos = analogInput.getVoltage() * 2 * (Math.PI / 4.972) * (180/Math.PI);
 
         while(opModeIsActive()){
-            // servo.setPower(0.5);
-            double position = analogInput.getVoltage() * 2 * (Math.PI / 4.972) * (180/Math.PI) + initPos;
+
+            double position = analogInput.getVoltage() * ((2 * Math.PI )/ 4.972) * (180/Math.PI) + initPos;
             double justVoltage = analogInput.getVoltage();
 
             double initAccel = 0;

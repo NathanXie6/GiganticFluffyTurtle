@@ -77,7 +77,7 @@ public class Test extends LinearOpMode {
 
         while(opModeIsActive()){
 
-            double position = analogInput.getVoltage() * ((2 * Math.PI )/ 4.972) * (180/Math.PI) + initPos;
+            double position = analogInput.getVoltage() * ((2 * Math.PI )/ 4.972) * (180/Math.PI) ;
             double justVoltage = analogInput.getVoltage();
 
 

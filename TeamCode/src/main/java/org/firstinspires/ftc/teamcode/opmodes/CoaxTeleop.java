@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -17,14 +18,22 @@ import org.firstinspires.ftc.teamcode.libswerve.Util;
 import org.firstinspires.ftc.teamcode.libswerve.Vector2;
 import org.firstinspires.ftc.teamcode.libswerve.coaxial.CoaxialSwerveModule;
 import org.firstinspires.ftc.teamcode.modules.MyCoaxialSwerveModule;
+import org.firstinspires.ftc.teamcode.utils.TelemetryUtil;
 
 @TeleOp(name = "Coax Teleop", group = "teleop")
 public class CoaxTeleop extends OpMode {
     private Drivetrain drivetrain;
     private SwerveModule m1, m2, m3, m4;
+    FtcDashboard dashboard;
+    public static int desiredPosition = 200;
+
 
     @Override
     public void init() {
+
+
+
+
         m1 = new MyCoaxialSwerveModule(-1, -1,
             hardwareMap.get(DcMotor.class, "FrontLeftM"),
             hardwareMap.get(CRServoImplEx.class, "FrontLeftS"),
@@ -56,11 +65,42 @@ public class CoaxTeleop extends OpMode {
                 setPower(new Vector2(gamepad.left_stick_x, gamepad.left_stick_y), gamepad.right_stick_x);
             }
         };
+
+
     }
 
     @Override
     public void loop() {
+
+
         drivetrain.drive(gamepad1);
         drivetrain.update();
+
+        dashboard = FtcDashboard.getInstance();
+        AnalogInput analogInput = hardwareMap.get(AnalogInput.class, "FrontLeftE");
+
+        TelemetryUtil.setup();
+        double position = analogInput.getVoltage() * 2 * (Math.PI / 4.972) * (180/Math.PI);
+        double justVoltage = analogInput.getVoltage();
+
+        double initAccel = 0;
+        double now = System.currentTimeMillis();
+
+        //       frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+        //  double servoPosition = position;
+//            double velocity = servo.getVelocity();
+
+        double error = position - desiredPosition;
+        //    telemetry.addData("Velocity", velocity);
+        TelemetryUtil.packet.put("Error", error);
+        TelemetryUtil.packet.put("Encoder Position", position);
+        TelemetryUtil.packet.put("just voltage bro:", justVoltage);
+        TelemetryUtil.packet.put("Desired Position", desiredPosition);
+        TelemetryUtil.sendTelemetry();
+
+        telemetry.update();
+
     }
 }

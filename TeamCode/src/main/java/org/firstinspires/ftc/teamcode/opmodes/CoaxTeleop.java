@@ -59,6 +59,7 @@ public class CoaxTeleop extends OpMode {
             4.640037149574743, DcMotorSimple.Direction.FORWARD
         );
 
+
         drivetrain = new Drivetrain(0.8, null, new SwerveModule[]{m1, m2, m3, m4}) {
             @Override
             public void drive(Gamepad gamepad) {
@@ -88,16 +89,37 @@ public class CoaxTeleop extends OpMode {
 
         //       frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+        double angleT1 = m1.getTargetAngle();
+        double angleT2 = m2.getTargetAngle();
+        double angleT3 = m3.getTargetAngle();
+        double angleT4 = m4.getTargetAngle();
+
+        double angleA1 = m1.getAngle();
+        double angleA2 = m2.getAngle();
+        double angleA3 = m3.getAngle();
+        double angleA4 = m4.getAngle();
 
         //  double servoPosition = position;
 //            double velocity = servo.getVelocity();
 
         double error = position - desiredPosition;
         //    telemetry.addData("Velocity", velocity);
-        TelemetryUtil.packet.put("Error", error);
-        TelemetryUtil.packet.put("Encoder Position", position);
-        TelemetryUtil.packet.put("just voltage bro:", justVoltage);
-        TelemetryUtil.packet.put("Desired Position", desiredPosition);
+//        TelemetryUtil.packet.put("Error", error);
+//        TelemetryUtil.packet.put("Encoder Position", position);
+//        TelemetryUtil.packet.put("just voltage bro:", justVoltage);
+//        TelemetryUtil.packet.put("Desired Position", desiredPosition);
+
+        TelemetryUtil.packet.put("servo 1 target angle", angleT1);
+        TelemetryUtil.packet.put("servo 2 target angle", angleT2);
+        TelemetryUtil.packet.put("servo 3 target angle", angleT3);
+        TelemetryUtil.packet.put("servo 4 target angle", angleT4);
+        TelemetryUtil.packet.put("servo 1 actual angle", angleA1);
+        TelemetryUtil.packet.put("servo 2 actual angle", angleA2);
+        TelemetryUtil.packet.put("servo 3 actual angle", angleA3);
+        TelemetryUtil.packet.put("servo 4 actual angle", angleA4);
+
+
+
         TelemetryUtil.sendTelemetry();
 
         telemetry.update();

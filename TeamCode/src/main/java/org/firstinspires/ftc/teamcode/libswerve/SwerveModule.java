@@ -5,7 +5,7 @@ import com.acmerobotics.dashboard.config.Config;
 @Config
 public abstract class SwerveModule {
     private double targetAngle = 0;
-    public static PID pid = new PID(0.35, 0, 0.7);
+    public static PID pid = new PID(0.02, 0, 0.4);
     public double fwdPower = 0;
     public final double x;
     public final double y;
